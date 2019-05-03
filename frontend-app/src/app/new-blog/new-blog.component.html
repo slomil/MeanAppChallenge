@@ -1,0 +1,8 @@
+<h2> Create new blog </h2>
+<form (submit)="newBlog($event)">
+  <tr><td>Author: {{homeComponent.username}}<td></tr>
+  <tr><td>Title: </td><td><input type="text" id="title"></td></tr>
+  <tr><td>Content: </td>
+  <td><textarea id="content"></textarea></td></tr>
+  <input type="submit" value="Save blog">
+</form>

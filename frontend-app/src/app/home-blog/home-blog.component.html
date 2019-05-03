@@ -1,0 +1,9 @@
+<h2>Home page</h2>
+<div *ngFor="let blog of blogs" >
+<tr><td><label><b>Author:</b></label></td> <td> {{blog.author}}</td></tr>
+<tr><td><label><b>Title:</b></label></td> <td>{{blog.title}}</td></tr>
+<tr><td><label><b>Content:</b></label></td> <td>{{blog.content}}</td></tr>
+<tr><td><a routerLink="/editBlog/{{blog.id}}">Edit blog</a></td><td><button id="{{blog.id}}" (click)="deleteBlog($event)">Delete blog</button></td></tr>
+</div>
+<br>
+<app-new-blog></app-new-blog>
