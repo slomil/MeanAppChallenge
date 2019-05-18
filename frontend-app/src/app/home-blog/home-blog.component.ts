@@ -24,9 +24,10 @@ export class HomeBlogComponent implements OnInit {
     return this.blogService.getBlogs(this.username);
   }
 
-  public deleteBlog(event){
+  public deleteBlog(event) {
 
-    this.id=event.target.id;
+    this.id = event.target.id;
     this.blogService.deleteBlog(this.id);
+    this.blogs = this.blogs.filter(data => {data.id! = this.id; });
   }
 }

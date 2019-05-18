@@ -20,18 +20,19 @@ export class NewBlogComponent implements OnInit {
   public newBlog(event) {
     const data = event.target;
     console.log('Saving blog....' + data);
-    const id=this.getId();
+    const id = this.getId();
     const author = localStorage.getItem('username');
     const title = data.querySelector('#title').value;
     const content = data.querySelector('#content').value;
-    this.blogService.newBlog(id,author, title, content);
+    this.blogService.newBlog(id, author, title, content);
+
   }
 
   public getId() {
-    var timestamp = (new Date().getTime() / 1000 | 0).toString(16);
+    const timestamp = (new Date().getTime() / 1000 | 0).toString(16);
     return timestamp + 'xxxxxxxxxxxxxxxx'.replace(/[x]/g, function() {
         return (Math.random() * 16 | 0).toString(16);
     }).toLowerCase();
-};
+}
 
 }

@@ -11,6 +11,7 @@ import { EditBlogComponent } from './edit-blog/edit-blog.component';
 import { NewBlogComponent } from './new-blog/new-blog.component';
 
 import { LoginService } from './login.service';
+import { AlertModule } from 'ngx-bootstrap/alert';
 
 @NgModule({
   declarations: [
@@ -43,7 +44,8 @@ import { LoginService } from './login.service';
         component: LoginComponent
       }
     ]),
-    AppRoutingModule
+    AppRoutingModule,
+    AlertModule.forRoot()
   ],
   providers: [LoginService],
   bootstrap: [AppComponent]

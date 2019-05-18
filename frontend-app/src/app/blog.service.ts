@@ -38,32 +38,44 @@ export class BlogService {
       (data) => {
         console.log('Successful saving!');
         this.router.navigate(['/homeBlog']);
+        alert('New blog created!');
       }
     );
   }
 
   //
-  getBlog(id):Observable<Blog>{
+  getBlog(id): Observable<Blog> {
     return this.http.get(`${this.uri}/getBlog/${id}`).pipe(
-      map((data:Blog)=>{
+      map((data: Blog) => {
         return data;
       })
     );
   }
   //
-  editBlog(id) {
-    //this.router.navigate(['/editBlog/',id]);
-  }
-
-  deleteBlog(id) {
-    this.http.delete(`${this.uri}/deleteBlog/${id}`).subscribe(
-      (data)=>{
-        console.log('Successfully deleted.');
-        this.router.navigate(['/homeBlog']);
+  editBlog(id, author, title, content) {
+    const blog = {
+      id,
+      author,
+      title,
+      content
+    };
+    this.http.put(`${this.uri}/editBlog/${id}`, blog).subscribe(
+      data => {
+      console.log('Successfully edited: ' + data);
+      alert('Successfully edited!');
       }
     );
   }
 
-  
+  deleteBlog(id) {
+    this.http.delete(`${this.uri}/deleteBlog/${id}`).subscribe(
+      (data) => {
+        console.log('Successfully deleted.');
+        alert('Successfully deleted!');
+      }
+    );
+  }
+
+
 
 }

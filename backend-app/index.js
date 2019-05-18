@@ -7,9 +7,9 @@ app.use(express.urlencoded({extended:true}));
 app.use(express.json());
 
 app.use(function(req,res,next){
-    res.setHeader( 'Access-Control-Allow-Headers', 'Accept,Accept-Language,Content-Language,Content-Type');
+    res.setHeader( 'Access-Control-Allow-Headers', 'Origin, X-Requested-With, Accept,Accept-Language,Content-Language,Content-Type');
     res.setHeader('Access-Control-Allow-Origin','http://localhost:4200');
-    res.setHeader('Access-Control-Allow-Methods','http://localhost:4200','POST,GET,PUT,OPTIONS,DELETE');
+    res.setHeader('Access-Control-Allow-Methods','http://localhost:4200','POST, GET, PUT, OPTIONS, DELETE');
     res.setHeader('Access-Control-Allow-Credentials','http://localhost:4200', true);
     next();
 });
@@ -80,7 +80,7 @@ app.get('/getBlogs/:id',function(req,res){
         console.log('Number of documents....' + data);
     });
     
-    database.collection("blogCollection").find({"author":id},{author:1,title:1,content:1},function(err,blogs){
+    database.collection("blogCollection").find({"author":id},{id:1,author:1,title:1,content:1},function(err,blogs){
         let blog_array=[];
         if(err){
             res.send('Error occured');
@@ -101,8 +101,15 @@ app.get('/getBlogs/:id',function(req,res){
 
 app.get('/getBlog/:id',function(req,res){
     console.log('Get blog with id....' + req.params.id);
-    res.send(req.params.id);
-    //database.collection('blogCollection').find({"id":})
+    database.collection('blogCollection').findOne({"id":req.params.id},{id:1,author:1,title:1,content:1}, function(err,blog){
+        if(err){
+            res.send('Error occured');
+        }
+        if(blog){
+            console.log("Blog from database: " + blog);
+            res.send(blog);
+        }
+    });
 });
 
 app.post('/newBlog',function(req,res){
@@ -113,6 +120,26 @@ app.post('/newBlog',function(req,res){
 
 app.put('/editBlog/:id',function(req,res){
 
+    console.log('Updating document with id: ' + req.body.id);
+    database.collection('blogCollection').replaceOne({"id":req.body.id},
+    {$set:
+        {
+            "author":req.body.author,
+            "title": req.body.title,
+            "content":req.body.content
+        }
+    },
+    (err,data)=>{
+        if(err){
+            res.status(500).send(err);
+        }
+        if(data){
+            result={
+                "message":"Successful editing!"
+            };
+            res.json(result);
+        }
+    });
 });
 
 app.delete('/deleteBlog/:id',function(req,res){

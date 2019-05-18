@@ -11,21 +11,31 @@ import {Router} from '@angular/router';
 export class EditBlogComponent implements OnInit {
 
   blog;
-  id;  
-  constructor(private blogService: BlogService,private router: Router) { }
+  id;
+  author;
+  title;
+  content;
+  constructor(private blogService: BlogService, private router: Router) { }
 
   ngOnInit() {
-    //console.log(this.router.url);
-    this.id=this.router.url.slice(10);
+
+    this.id = this.router.url.slice(10);
     this.blog = this.getBlog(this.id);
     // this.blogService.getBlogs(this.username).subscribe(data => (this.blogs = data));
   }
 
   public editBlog(event) {
-    this.blogService.editBlog(this.id);
+    const data = event.target;
+    this.id = this.blog.id;
+    this.author = data.querySelector('#author').value;
+    this.title = data.querySelector('#title').value;
+    this.content = data.querySelector('#content').value;
+    this.blogService.editBlog(this.id, this.author, this.title, this.content);
   }
 
-  public getBlog(id){
-    return this.blogService.getBlog(id);
+  public getBlog(id) {
+    return this.blogService.getBlog(id).subscribe(data => {
+      this.blog = data;
+    });
   }
 }
